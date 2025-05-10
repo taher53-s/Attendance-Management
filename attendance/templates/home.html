@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Management - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #444;
+            margin-bottom: 30px;
+        }
+        nav {
+            margin: 20px 0;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 10px;
+            display: inline-block;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Attendance Management System</h1>
+    <p>This is the homepage. You can navigate to different sections from here.</p>
+    
+    <nav>
+        <!--<a href="{% url 'admin:index' %}">Admin Panel</a>-->
+        <a href="{% url 'attendance:enroll_student' %}">Enroll Student</a>
+        <a href="{% url 'attendance:mark_attendance' %}">Mark Attendance</a>
+        <a href="{% url 'attendance:attendance_report' %}">View Attendance Report</a>
+    </nav>
+
+</body>
+</html>

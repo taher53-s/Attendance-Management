@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #444;
+            margin-bottom: 30px;
+        }
+        canvas {
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 10px;
+            display: inline-block;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Attendance Report</h1>
+
+    <!-- Displaying attendance numbers -->
+    <p>Total Students: {{ total_students }}</p>
+    <p>Present: {{ present_count }}</p>
+    <p>Absent: {{ absent_count }}</p>
+    <p>Late: {{ late_count }}</p>
+
+    <!-- Pie chart container -->
+    <canvas id="attendanceChart"></canvas>
+
+    <!-- Link to go back home -->
+    <p><a href="{% url 'home' %}">Go back to Home</a></p>
+
+    <script>
+        // Data for the pie chart (from Django context)
+        const presentCount = {{ present_count }};
+        const absentCount = {{ absent_count }};
+        const lateCount = {{ late_count }};
+
+        // Create the pie chart using Chart.js
+        const ctx = document.getElementById('attendanceChart').getContext('2d');
+        const attendanceChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Present', 'Absent', 'Late'],
+                datasets: [{
+                    label: 'Attendance Status',
+                    data: [presentCount, absentCount, lateCount],
+                    backgroundColor: ['#28a745', '#dc3545', '#fd7e14'],  // Green for Present, Red for Absent, Orange for Late
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                const value = tooltipItem.raw;
+                                const total = presentCount + absentCount + lateCount;
+                                const percentage = ((value / total) * 100).toFixed(2);
+                                return `${tooltipItem.label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
